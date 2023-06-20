@@ -119,8 +119,10 @@ def get_facility_by_name(name='',limit=5,offset=0):
 
     
     return facilities
-
-def get_facility_by_filter(filters='{"רשות מקומית":"אבו גוש"}',limit=5,offset=0):
+# filters='{"רשות מקומית":"אבו גוש"}'
+def get_facility_by_filter(filters,limit=5,offset=0):
+    if filters == "{}":
+        return {}
     url = f'{BASE_URL}&limit={limit}&offset={offset}&filters={filters}'
     print('######################')
     print(url)

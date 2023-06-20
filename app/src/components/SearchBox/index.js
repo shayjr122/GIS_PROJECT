@@ -1,37 +1,54 @@
 import React, { useState } from "react";
-import { Button, Input, Form, Label } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { Form } from "reactstrap";
+import axios from "utils/api";
+import search from "assets/icons/search.svg"
+import downArrow from "assets/icons/downArrow.svg"
 import "./SearchBox.css";
+import DropdownList from "./DropdownList";
 
-const Sign = ({ title, labels, inputs, submit, onSubmit }) => {
-  const navigate = useNavigate();
+const SearchBox = ({
+    searchBox,
+    spinners,
+    onSubmitCallback
+}) => {
+    const [spinnerState, setSpinnerState] = useState(-1);
+    const [filter,setfilter] = useState({})
 
-  const handle_submit = async (e) => {
-    e.preventDefault();
-    onSubmit(e);
-  };
+    const handle_submit = (e)=>{
+        e.preventDefault();
+        onSubmitCallback && onSubmitCallback(filter);
+    }
+    const handle_change = (e,key)=>{
+        e.preventDefault();
+        setfilter({ ...filter, [e.target.name]: e.target.value });
+        setSpinnerState(key)
+    }
+    return (
+        <Form style={{ width: "100%" }} onSubmit={handle_submit}>
+            <div className="my-input">
+                <input {...searchBox} />
+                <img src={search} />
+            </div>
+            {spinners.map((spinner, key) => (
+                <div key={key} className="my-input drop-down">
+                    <div onChange={(e)=>handle_change(e,key)}>
+                        <input placeholder={spinner.placeholder} autoComplete="off" name={spinner.placeholder} data-key={key} value={filter[spinner.placeholder]?filter[spinner.placeholder]:''}/>
+                        <img
+                            src={downArrow}
+                            data-selected={key === spinnerState && spinner.items && spinner.items.some(item=>new RegExp(`^${filter[spinner.placeholder]}`).test(item))}
+                            onClick={() => {
+                                console.log('click');
+                                setSpinnerState(key === spinnerState ? -1 : key);
+                            }}
+                            width="20px" height="20px"
+                            style={{ alignSelf: "center" }} />
+                    </div>
+                    {key === spinnerState && <DropdownList items={spinner.items} field={spinner.placeholder} filter={filter} setfilter={setfilter} setSpinnerState={setSpinnerState}/>}
+                </div> 
+            ))}
+            <input className="search-btn" type="submit" value={"חפש"}/>
+        </Form>
 
-  return (
-    <div>
-      <Form className="sign-form" onSubmit={handle_submit}>
-        <div>
-          <h1>{title}</h1>
-          <div className="inputs-container" onChange={handle_change}>
-            {inputs &&
-              inputs.map((input, index) => (
-                <div key={index}>
-                  <Label>{labels[index]}</Label>
-                  <Input key={index} {...input} />
-                </div>
-              ))}
-          </div>
-          <Button className="mt-3" color="info" size="lg">
-            {submit}
-          </Button>
-        </div>
-      </Form>
-    </div>
-  );
-};
-
-export default Sign;
+    )
+}
+export default SearchBox;

@@ -63,7 +63,7 @@ function SignUp() {
         // delete user.selects;
         // console.log(user);
         const { data } = await axios.post(
-          `http://${config.api_host}/user/signup`,
+          `${config.api_host}/user/signup`,
           {
             email: userCred.email,
             password: userCred.password,

@@ -52,7 +52,7 @@ export default function Signin() {
       onSubmit={async (user) => {
         try {
           const response = await axios.post(
-            `http://${config.api_host}/user/login`,
+            `${config.api_host}/user/login`,
             { email: user.email, password: user.password }
           );
 
@@ -70,17 +70,6 @@ export default function Signin() {
         } catch (error) {
           alert("שם משתמש או סיסמה אינם נכונים");
         }
-        // if (data.success) {
-        //   localStorage.setItem("token", data.token);
-        //   localStorage.setItem("retoken", data.refresh_token);
-        //   localStorage.setItem("roles", data.userData.access_level);
-        //   localStorage.setItem("name", data.userData.fullName);
-        //   localStorage.setItem("loginTime", new Date());
-        //   console.log(data.userData);
-        //   navigate(0);
-        // } else {
-        //   alert("שם משתמש או סיסמה אינם נכונים");
-        // }
       }}
     />
   );

@@ -14,8 +14,9 @@ app.include_router(user_router, tags=["User"])
 app.include_router(facilities_route, tags=["Facilities"])
 
 origins = [
-    "http://localhost",
-    "http://localhost:3000",
+    "*"
+    # "http://localhost",
+    # "http://localhost:3000",
     # Add more allowed origins as needed
 ]
 

@@ -1,6 +1,11 @@
+div:has(> .leaflet-container) {
+  border: solid black 2px;
+  border-radius: 2rem;;
+}
+
 .leaflet-container {
-  height: 90vh;
-  width: 90%;
+  height: 100%!important;
+  width: 100%!important;
   border-radius: 2rem;
   display: flex;
   align-items: center;

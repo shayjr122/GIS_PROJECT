@@ -1,7 +1,20 @@
+/* index.css */
+#root{
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  direction: rtl;  
+}
+/*  */
+
 body {
   background-color: #00b9e8;
+  height: 100%;
+  width: 100%;
 }
 
+/*  
 .page-container {
   margin: 20px;
   border-radius: 4px;
@@ -48,7 +61,6 @@ tr:nth-child(even) {
   background-color: #e6e6e6;
 }
 
-/* Update Map Component styles */
 .my-map {
   height: 100vh;
   width: 50%;
@@ -76,4 +88,35 @@ tr:nth-child(even) {
   border-radius: 50%;
   font-size: 1.2rem;
   box-shadow: 0 0 0px 5px #fff;
+} */
+
+div:has(> .home-main-grid) {
+  height: 100vh;
+  width: 100vw;
+  padding: auto;
+  background-color: #00b9e8;
+  display: flex;
 }
+
+.home-main-grid {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  padding: 1% 0.5%;
+  background-color: white;
+  border-radius: 20px;
+  font-family: "Rubik", sans-serif;
+  display: flex;
+  justify-content: space-between;
+  color: black;
+  overflow: auto;
+}
+.half-grid{
+  width: 47.5%;
+  height: 100%;
+}
+/* 
+75
+
+
+*/

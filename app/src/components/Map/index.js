@@ -14,21 +14,7 @@ const customIcon = new Icon({
   iconSize: [38, 38], // size of the icon
 });
 
-export default function Map() {
-  const [markers, setMarkers] = useState([]);
-  useEffect(async () => {
-    // const { data } = await axios.get(
-    //   `http://${config.api_host}/facilities/search?search=%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91&limit=20&offset=0`,
-    //   {
-    //     headers: {
-    //       authorization: `Bearer ${localStorage.getItem("token")}`,
-    //     },
-    //   }
-    // );
-    // // Fetch markers data from API
-    // setMarkers(data.results);
-  }, []);
-
+export default function Map({markers}) {
   return (
     <MapContainer
       className="leaflet-container"
@@ -41,6 +27,7 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {markers &&
+      markers.map &&
         markers.map((marker, key) => (
           <Marker key={key} position={marker?.geocode} icon={customIcon}>
             <Popup>{marker?.popup}</Popup>
