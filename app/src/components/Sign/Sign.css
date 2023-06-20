@@ -1,55 +1,52 @@
-div:has(>.sign-form) {
-    height: 100vh;
-    width: 100vw;
-    padding: auto;
-    background-color: #00b9e8;
-    display: flex;
-  }
-  
+div:has(> .sign-form) {
+  height: 100vh;
+  width: 100vw;
+  padding: auto;
+  background-color: #00b9e8;
+  display: flex;
+}
+
+.sign-form {
+  width: 50%;
+  padding: 80px 50px;
+  background-color: white;
+  border-radius: 20px;
+  min-width: 300px;
+  margin: auto;
+  align-self: center;
+  font-family: "Rubik", sans-serif;
+  direction: rtl;
+  display: flex;
+  justify-content: space-between;
+  color: black;
+}
+
+.sign-form > image-container {
+  width: 50%;
+  margin: 10px;
+}
+
+.inputs-container {
+  display: flex;
+  flex-direction: column !important;
+}
+
+.inputs-container > label {
+  margin: 10px;
+}
+
+@media (max-width: 1020px) {
   .sign-form {
-    width: 50%;
-    padding: 80px 50px;
-    background-color: white;
-    border-radius: 20px;
-    min-width: 300px;
-    margin: auto;
-    align-self: center;
-    font-family: 'Rubik', sans-serif;
-    direction: rtl;
-    display: flex;
-    justify-content: space-between;
-    color: black;
+    width: 75%;
   }
-  
-  .sign-form>image-container {
-    width: 50%;
-    margin: 10px;
+}
+
+@media (max-width: 664px) {
+  .sign-form {
+    width: 75%;
   }
-  
-  
-  .inputs-container {
-    display: flex;
-    flex-direction: column !important;
+
+  .sign-form > .image-container {
+    display: none;
   }
-  
-  
-  .inputs-container>label {
-    margin: 10px;
-  }
-  
-  @media(max-width:1020px) {
-    .sign-form {
-      width: 75%;
-    }
-  
-  }
-  
-  @media(max-width:664px) {
-    .sign-form {
-      width: 75%;
-    }
-  
-    .sign-form>.image-container {
-      display: none;
-    }
-  }
+}

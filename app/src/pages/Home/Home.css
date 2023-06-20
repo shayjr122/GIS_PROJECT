@@ -1,26 +1,68 @@
-/* * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-} */
+body {
+  background-color: #00b9e8;
+}
 
+.page-container {
+  margin: 20px;
+  border-radius: 4px;
+}
+
+.table {
+  border: none;
+
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: none;
+  background-color: #fff;
+}
+
+.header,
+.search-box,
+.map,
+.advance-search {
+  padding: 10px;
+  background-color: #f2f2f2;
+}
+
+.header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.search-box {
+  text-align: right;
+  font-size: 16px;
+}
+
+.map,
+.advance-search {
+  width: 50%;
+}
+
+tr:nth-child(even) {
+  background-color: #e6e6e6;
+}
+
+/* Update Map Component styles */
 .my-map {
   height: 100vh;
+  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 1em;
-  font-family: sans-serif;
-  color: #333;
-  background-color: #f3e4d7;
+  background-color: #fff;
 }
 
-/* height of the container */
 .leaflet-container {
   height: 80vh;
   width: 80%;
   border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .cluster-icon {

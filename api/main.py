@@ -1,10 +1,18 @@
-from fastapi import FastAPI, Query
-import aggregation_layer
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-
-
+from utils.database import database,create_user_table_if_not_exist,create_default_admin_user
 app = FastAPI()
+
+
+
+# Import routes
+from routes.user_route import router as user_router
+from routes.facilities_route import router as facilities_route
+
+# Include the user router
+app.include_router(user_router, tags=["User"])
+app.include_router(facilities_route, tags=["Facilities"])
+
 origins = [
     "http://localhost",
     "http://localhost:3000",
@@ -19,17 +27,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# API to locate facilities based on free search text
-@app.get("/facilities/search")
-def search_facilities(search: str = Query(...),limit: str = Query(...),offset: str = Query(...)):
-    results= aggregation_layer.get_facility_by_name(name=search,limit=limit,offset=offset)
-    return {"length":len(results),"results":results}
-
-# API to locate facilities based on free search text and radius
-@app.get("/facilities/filter")
-def filters_search_facilities(filters: str = Query(...),limit: str = Query(...),offset: str = Query(...)):
-    results= aggregation_layer.get_facility_by_filter(name=filters,limit=limit,offset=offset)
-    return {"length":len(results),"results":results}
+# Create database and tables on startup
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+    await create_user_table_if_not_exist()
+    await create_default_admin_user()
 
 
-
+# Close database connection on shutdown
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()

@@ -122,6 +122,9 @@ def get_facility_by_name(name='',limit=5,offset=0):
 
 def get_facility_by_filter(filters='{"רשות מקומית":"אבו גוש"}',limit=5,offset=0):
     url = f'{BASE_URL}&limit={limit}&offset={offset}&filters={filters}'
+    print('######################')
+    print(url)
+    print('######################')
     r= requests.get(url)
     data = json.loads(r.text)
     if len(data['result']['records'])== 0:
