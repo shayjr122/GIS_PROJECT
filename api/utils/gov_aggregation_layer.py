@@ -103,42 +103,34 @@ def facility_serilaize(facility):
             serving_person=facility['משרת בית ספר']
             )
 
-def get_facility_by_name(name='',limit=5,offset=0):
-    url = f'{BASE_URL}&limit={limit}&offset={offset}&q={name}'
-    r= requests.get(url)
-    data = json.loads(r.text)
-    if len(data['result']['records'])== 0:
-        return []
-    
-    facilities = []
-    for facility in data['result']['records']:
-        print(facility)
-        facility_ser=facility_serilaize(facility) 
-        if facility_ser!=None:
-            facilities.append(facility_serilaize(facility))
-
-    
-    return facilities
 # filters='{"רשות מקומית":"אבו גוש"}'
-def get_facility_by_filter(filters,limit=5,offset=0):
+def get_facility_by_filter(filters, limit=5, offset=0):
     if filters == "{}":
         return {}
-    url = f'{BASE_URL}&limit={limit}&offset={offset}&filters={filters}'
+
+    url = f'{BASE_URL}&limit={limit}&offset={offset}'
+    f = json.loads(filters)
+    if 'q' in f:
+        q = f['q']
+        del f['q']
+        filters = json.dumps(f)
+        url = f'{url}&q={q}'
+    if filters != "{}":
+        url = f'{url}&filters={filters}'
     print('######################')
     print(url)
     print('######################')
-    r= requests.get(url)
+    r = requests.get(url)
     data = json.loads(r.text)
-    if len(data['result']['records'])== 0:
+    if len(data['result']['records']) == 0:
         return []
-    
+
     facilities = []
     for facility in data['result']['records']:
         print(facility)
-        facility_ser=facility_serilaize(facility) 
-        if facility_ser!=None:
+        facility_ser = facility_serilaize(facility)
+        if facility_ser is not None:
             facilities.append(facility_serilaize(facility))
 
-    
     return facilities
     
