@@ -3,89 +3,90 @@ import Map from "components/Map";
 import SearchBox from "components/SearchBox";
 import "./Home.css";
 import axios from "utils/api";
+import { redirect } from "react-router-dom";
+const placeholder = require("placeholders.json");
+
 export default function Home() {
   const inputs = {
-    searchBox:{
-      placeholder:'לדוגמא: כדורסל תל-אביב'
+    searchBox: {
+      placeholder: "לדוגמא: כדורסל תל-אביב",
     },
-    spinners:[
+    spinners: [
       {
-        placeholder:'רשות מקומית',
-        items:[
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-          'אבו גוש',
-          'אבו סנאן',
-          'אבן יהודה',
-        ]
+        placeholder: "רשות מקומית",
+        items: placeholder["authorities"],
       },
       {
-        placeholder:'סוג מתקן',
+        placeholder: "סוג מתקן",
+        items: placeholder["facility_type"],
       },
       {
-        placeholder:'שם מתקן'
+        placeholder: "שם מתקן",
+        items: placeholder["facility_name"],
       },
       {
-        placeholder:'תאורה קיימת'
+        placeholder: "תאורה קיימת",
+        items: placeholder["light"],
       },
       {
-        placeholder:'גידור קיים'
+        placeholder: "גידור קיים",
+        items: placeholder["border"],
       },
       {
-        placeholder:'פנוי לפעילות'
+        placeholder: "פנוי לפעילות",
+        items: placeholder["available"],
       },
       {
-        placeholder:'מספר תוצאות'
-      }
-    ]
-  } 
-  const [locations,setLocations]=useState([])
+        placeholder: "מספר תוצאות",
+        items: placeholder["limit"],
+      },
+    ],
+  };
+  const [locations, setLocations] = useState([]);
 
-  const handle_search = async (filter)=>{
+  const handle_search = async (filter) => {
+    Object.keys(filter).forEach((key) => {
+      if (filter[key] === "") delete filter[key];
+    });
     console.log(JSON.stringify(filter));
     const params = {
-      filters:JSON.stringify(filter),
-      offset:0,
-      limit:5,
-    }
+      filters: JSON.stringify(filter),
+      offset: 0,
+      limit: 5,
+    };
     try {
-      const {data} = await axios.get("/facilities/filter",{params})
+      const { data } = await axios.get("/facilities/filter", { params });
       setLocations(data.results);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const handle_logout = (e) => {
+    localStorage.clear();
+    console.log("dsds");
+    window.location.href = window.location.href + "/../Signin";
+  };
 
   return (
-    <div>
-    <div className="home-main-grid">
+    <div className="all">
+      <div>
+        <input
+          className="search-btn right"
+          type="submit"
+          value={"התנתק"}
+          onClick={handle_logout}
+        />
+      </div>
+      <div className="home-main-grid">
         <div className="half-grid">
-          <SearchBox {...inputs} onSubmitCallback={handle_search}/>
+          <SearchBox {...inputs} onSubmitCallback={handle_search} />
         </div>
         <div className="half-grid">
-          <Map markers={locations}/>
+          <Map markers={locations} />
         </div>
-    </div>
+      </div>
     </div>
   );
 }

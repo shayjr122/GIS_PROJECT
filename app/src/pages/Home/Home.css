@@ -1,13 +1,19 @@
 /* index.css */
-#root{
+#root {
   height: 100vh;
   width: 100vw;
   margin: 0;
   padding: 0;
-  direction: rtl;  
+  direction: rtl;
 }
 /*  */
-
+.all {
+  display: inline-block !important;
+}
+.right {
+  justify-content: right;
+  display: grid;
+}
 body {
   background-color: #00b9e8;
   height: 100%;
@@ -111,7 +117,7 @@ div:has(> .home-main-grid) {
   color: black;
   overflow: auto;
 }
-.half-grid{
+.half-grid {
   width: 47.5%;
   height: 100%;
 }

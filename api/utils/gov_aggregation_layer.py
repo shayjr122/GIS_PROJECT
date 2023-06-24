@@ -108,13 +108,18 @@ def get_facility_by_filter(filters, limit=5, offset=0):
     if filters == "{}":
         return {}
 
-    url = f'{BASE_URL}&limit={limit}&offset={offset}'
+    url = f'{BASE_URL}&offset={offset}'
     f = json.loads(filters)
     if 'q' in f:
         q = f['q']
         del f['q']
         filters = json.dumps(f)
         url = f'{url}&q={q}'
+    if 'מספר תוצאות' in f:
+        limit = f['מספר תוצאות']
+        del f['מספר תוצאות']
+        filters = json.dumps(f)
+    url = f'{url}&limit={limit}'
     if filters != "{}":
         url = f'{url}&filters={filters}'
     print('######################')
