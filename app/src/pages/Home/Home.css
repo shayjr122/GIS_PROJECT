@@ -10,92 +10,15 @@
 .all {
   display: inline-block !important;
 }
-.right {
-  justify-content: right;
-  display: grid;
-}
 body {
   background-color: #00b9e8;
   height: 100%;
   width: 100%;
 }
-
-/*  
-.page-container {
-  margin: 20px;
-  border-radius: 4px;
-}
-
-.table {
-  border: none;
-
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table th,
-.table td {
-  border: none;
-  background-color: #fff;
-}
-
-.header,
-.search-box,
-.map,
-.advance-search {
-  padding: 10px;
-  background-color: #f2f2f2;
-}
-
-.header {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.search-box {
-  text-align: right;
-  font-size: 16px;
-}
-
-.map,
-.advance-search {
-  width: 50%;
-}
-
-tr:nth-child(even) {
-  background-color: #e6e6e6;
-}
-
-.my-map {
-  height: 100vh;
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-}
-
-.leaflet-container {
-  height: 80vh;
-  width: 80%;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.cluster-icon {
-  background-color: #333;
-  height: 2em;
-  width: 2em;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  font-size: 1.2rem;
-  box-shadow: 0 0 0px 5px #fff;
+/* .quart-grid {
+  height: 50%;
+  max-height: 50%;
 } */
-
 div:has(> .home-main-grid) {
   height: 100vh;
   width: 100vw;
@@ -117,12 +40,76 @@ div:has(> .home-main-grid) {
   color: black;
   overflow: auto;
 }
+.logout-btn {
+  width: 10%;
+  height: 30px;
+  margin: 5px;
+  border-radius: 2em;
+  background-color: #00b9e8;
+  color: white;
+  border: none;
+  font-size: 15px;
+}
 .half-grid {
   width: 47.5%;
   height: 100%;
 }
-/* 
-75
+.quart-grid-top {
+  height: 72.5%;
+  border-radius: 20px;
+  border: solid black 1px;
+  padding: 2.5%;
+}
+.quart-grid-bottom {
+  height: 25%;
+  border-radius: 20px;
+  border: solid black 1px;
+  padding: 2.5%;
+}
+.cheat {
+  height: 2.5%;
+}
+.center {
+  margin-top: 2%;
+}
+.tableFixHead {
+  overflow-y: auto; /* make the table scrollable if height is more than 200 px  */
+  height: 100%; /* gives an initial height of 200px to the table */
+}
+.tableFixHead thead th {
+  position: sticky; /* make the table heads sticky */
+  top: 0px; /* table head will be placed from the top of the table and sticks to it */
+}
+table {
+  border-collapse: collapse; /* make the table borders collapse to each other */
+  width: 100%;
+  font-size: 15px;
+}
+th,
+td {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+}
+th {
+  background: #eee;
+}
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-*/
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "pages/Home";
 import Signin from "pages/Signin";
 import SignUp from "pages/Signup";
+import AdminPanel from "pages/AdminPanel";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
@@ -24,7 +25,7 @@ root.render(
 
         <Route element={<AdminRoutes />}>
           {/* admin routes */}
-          <Route path="/adminPanel" element={<></>}></Route>
+          <Route path="/adminPanel" element={<AdminPanel />}></Route>
         </Route>
       </Route>
     </Routes>

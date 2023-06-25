@@ -12,7 +12,7 @@ const Sign = ({
   src_image,
   user,
   onSubmit,
-})=> {
+}) => {
   const navigate = useNavigate();
   const [userCred, setUserCred] = user;
 
@@ -79,11 +79,11 @@ const Sign = ({
           </Button>
         </div>
         <div className="image-container">
-          <img src={src_image} />
+          <img className="image-size" src={src_image} />
         </div>
       </Form>
     </div>
   );
-}
+};
 
 export default Sign;

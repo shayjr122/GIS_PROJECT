@@ -7,7 +7,7 @@ div:has(> .sign-form) {
 }
 
 .sign-form {
-  width: 50%;
+  width: 60%;
   padding: 80px 50px;
   background-color: white;
   border-radius: 20px;
@@ -40,7 +40,10 @@ div:has(> .sign-form) {
     width: 75%;
   }
 }
-
+.image-size {
+  height: 400px;
+  width: 400px;
+}
 @media (max-width: 664px) {
   .sign-form {
     width: 75%;

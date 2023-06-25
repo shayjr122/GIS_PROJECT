@@ -28,10 +28,10 @@ export default function Home() {
         placeholder: "תאורה קיימת",
         items: placeholder["light"],
       },
-      {
-        placeholder: "גידור קיים",
-        items: placeholder["border"],
-      },
+      // {
+      //   placeholder: "גידור קיים",
+      //   items: placeholder["border"],
+      // },
       {
         placeholder: "פנוי לפעילות",
         items: placeholder["available"],
@@ -73,7 +73,7 @@ export default function Home() {
     <div className="all">
       <div>
         <input
-          className="search-btn right"
+          className="logout-btn"
           type="submit"
           value={"התנתק"}
           onClick={handle_logout}
@@ -81,7 +81,92 @@ export default function Home() {
       </div>
       <div className="home-main-grid">
         <div className="half-grid">
-          <SearchBox {...inputs} onSubmitCallback={handle_search} />
+          <div className="quart-grid-top">
+            <div className="tableFixHead center">
+              <SearchBox {...inputs} onSubmitCallback={handle_search} />
+            </div>
+          </div>
+          <div className="cheat"></div>
+          <div className="quart-grid-bottom">
+            <div className="tableFixHead">
+              <table>
+                <thead>
+                  <tr>
+                    <th>head</th>
+                    <th>head</th>
+                    <th>head</th>
+                    <th>head</th>
+                    <th>head</th>
+                  </tr>
+                </thead>
+                <tbody className="test">
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
         <div className="half-grid">
           <Map markers={locations} />
