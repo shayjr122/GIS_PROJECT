@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 from pydantic import BaseModel
 from utils.database import UserCred
-from utils.database import get_user_in_db
+from utils.database import get_user_in_db,UserInDB
 from passlib.context import CryptContext
 from utils.database import User,register_user
 router = APIRouter()
@@ -53,6 +53,7 @@ async def refresh_access_token(token: str):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("sub")
         user = await get_user_in_db(email)
+        print("user")
         if user:
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(data={"sub": str(user.id),"email":user.email,"fullName":user.fullName,"role":user.role}, expires_delta=access_token_expires)
@@ -95,6 +96,10 @@ def create_refresh_token(data: dict):
     encoded_jwt = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+async def get_user_by_token(token)->UserInDB:
+    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    return await get_user_in_db(payload.get('email'))
+    
 
 # Verify access token for regular user
 def verify_access_token_user(authorization: Optional[str] = Header(...)):

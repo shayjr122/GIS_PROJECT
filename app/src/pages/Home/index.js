@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Map from "components/Map";
 import SearchBox from "components/SearchBox";
 import "./Home.css";
@@ -43,6 +43,21 @@ export default function Home() {
     ],
   };
   const [locations, setLocations] = useState([]);
+  const [like_locations, setLikeLocations] = useState([]);
+
+  useEffect(() => {
+    const set_like_locations = async () => {
+      try {
+        const { data } = await axios.get("/facilities/like");
+        setLikeLocations(data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    set_like_locations();
+    console.log("like_locations", like_locations);
+  }, []); // Empty dependency array ensures this effect runs only once on component mount
 
   const handle_search = async (filter) => {
     Object.keys(filter).forEach((key) => {
@@ -92,77 +107,30 @@ export default function Home() {
               <table>
                 <thead>
                   <tr>
-                    <th>head</th>
-                    <th>head</th>
-                    <th>head</th>
-                    <th>head</th>
-                    <th>head</th>
+                    <th>מספר זיהוי</th>
+                    <th>סוג מתקן</th>
+                    <th>שם המתקן</th>
+                    <th>רשות מקומית</th>
+                    <th>טלפון איש קשר</th>
+                    <th>דואל איש קשר</th>
                   </tr>
                 </thead>
-                <tbody className="test">
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
-                  <tr>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                  </tr>
+                <tbody>
+                  {like_locations &&
+                    like_locations.map &&
+                    like_locations.map((location, key) => {
+                      console.log(location);
+                      return (
+                        <tr key={key}>
+                          <td>{location.identification_number}</td>
+                          <td>{location.facility_type}</td>
+                          <td>{location.facility_name}</td>
+                          <td>{location.local_authority}</td>
+                          <td>{location.contact_person_phone}</td>
+                          <td>{location.contact_person_email}</td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

@@ -31,6 +31,7 @@ axiosApiInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
+
     try {
       const res = await axios.get(`${con.api_host}/user/refresh`, {
         params: { token: localStorage.getItem("retoken") },

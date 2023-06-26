@@ -88,8 +88,9 @@ table {
 th,
 td {
   padding: 8px 16px;
-  border: 1px solid #ccc;
+  border: none;
 }
+
 th {
   background: #eee;
 }
@@ -112,4 +113,14 @@ th {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+table,
+tr,
+td {
+  border: none;
+
+  /* background-color: white; */
+}
+tr:hover {
+  background-color: gray;
 }

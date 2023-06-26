@@ -10,7 +10,7 @@ router = APIRouter()
 async def login_for_access_token(user: User):
     return await login(user=user)
 
-@router.post("/user/refresh")
+@router.get("/user/refresh")
 async def refresh(token: str):
     return await refresh_access_token(token=token)
 

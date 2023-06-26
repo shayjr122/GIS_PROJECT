@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from utils.database import database,create_user_table_if_not_exist,create_default_admin_user
+from utils.database import database,create_user_table_if_not_exist,create_default_admin_user,create_liked_table_if_not_exist
 app = FastAPI()
 
 
@@ -33,6 +33,7 @@ app.add_middleware(
 async def startup():
     await database.connect()
     await create_user_table_if_not_exist()
+    await create_liked_table_if_not_exist()
     await create_default_admin_user()
 
 

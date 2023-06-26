@@ -4,6 +4,7 @@ import json
 from pydantic import BaseModel
 from typing import Optional
 import math
+from utils.database import get_user_facility,get_user_in_db
 
 BASE_URL='https://data.gov.il/api/3/action/datastore_search?resource_id=f8dbd3ed-2c62-4d0e-bbaa-b6a15a0e5f7d'
 
@@ -109,6 +110,7 @@ def get_facility_by_filter(filters, limit=5, offset=0):
         return {}
 
     url = f'{BASE_URL}&offset={offset}'
+    print("filters",filters)
     f = json.loads(filters)
     if 'q' in f:
         q = f['q']
@@ -138,4 +140,16 @@ def get_facility_by_filter(filters, limit=5, offset=0):
             facilities.append(facility_serilaize(facility))
 
     return facilities
-    
+
+
+
+
+
+async def get_facility_liked(user_id):
+    facilities_id = await get_user_facility(user_id=user_id)
+    facilities = []
+    for id in facilities_id:
+        facility=get_facility_by_filter(filters='{"מספר זיהוי":"'+id+'"}')
+        facilities.append(facility)
+
+    return facilities

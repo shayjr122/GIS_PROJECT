@@ -44,13 +44,55 @@ async def create_user_table_if_not_exist():
     await database.execute(query=query)
 
 
+async def create_liked_table_if_not_exist():
+    query = """
+        CREATE TABLE IF NOT EXISTS liked (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            facility_id TEXT NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        );
+    """
+    await database.execute(query=query)
+
+
+
+
+
+
+# User Like function
+async def create_facility_liked(user_id: int, facility_id: str):
+    result = await get_user_facility(user_id)
+    for res in result:
+        if res == facility_id:
+            return
+    insert_query = "INSERT INTO liked (user_id, facility_id) VALUES (:user_id, :facility_id)"
+    insert_values = {"user_id": user_id, "facility_id": facility_id}
+    await database.execute(query=insert_query, values=insert_values)
+
+async def unlike(user_id: int, facility_id: str):
+    query = "DELETE FROM liked WHERE user_id = :user_id AND facility_id = :facility_id"
+    values = {"user_id": user_id, "facility_id": facility_id}
+    print(query,values)
+    s= await database.execute(query=query, values=values)
+    print(s)
+
+
+# Get user facility function
+async def get_user_facility(user_id: int):
+    query = "SELECT facility_id FROM liked WHERE user_id = :user_id"
+    values = {"user_id": user_id}
+    result = await database.fetch_all(query=query, values=values)
+    return [record["facility_id"] for record in result]
+
+
 async def create_default_admin_user():
     user = UserCred(email="admin@admin.com",fullName='Admin',password="Aa123456")
     await register_user(user=user,role="ADMIN")
 
 
 # Get user from the database
-async def get_user_in_db(email: str):
+async def get_user_in_db(email: str)->UserInDB:
     query = "SELECT * FROM users WHERE email = :email"
     values = {"email": email}
     result = await database.fetch_one(query=query, values=values)
