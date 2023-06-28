@@ -3,7 +3,6 @@ import Map from "components/Map";
 import SearchBox from "components/SearchBox";
 import "./Home.css";
 import axios from "utils/api";
-import { redirect } from "react-router-dom";
 const placeholder = require("placeholders.json");
 
 export default function Home() {
@@ -44,8 +43,10 @@ export default function Home() {
   };
   const [locations, setLocations] = useState([]);
   const [like_locations, setLikeLocations] = useState([]);
+  const [startPosition, setStartPosition] = useState([31.646501, 34.932652]);
 
   useEffect(() => {
+    console.log(1);
     const set_like_locations = async () => {
       try {
         const { data } = await axios.get("/facilities/like");
@@ -57,8 +58,59 @@ export default function Home() {
 
     set_like_locations();
     console.log("like_locations", like_locations);
-  }, []); // Empty dependency array ensures this effect runs only once on component mount
+  }, []);
+  useEffect(() => {
+    console.log(2);
+    const set_like_locations = async () => {
+      try {
+        const { data: db_data } = await axios.get("/facilities/like");
+        if (db_data.length < like_locations.length) {
+          const add_location = like_locations.filter((location) =>
+            db_data.results.some(
+              (loc_in_db) =>
+                loc_in_db.identification_number !==
+                location.identification_number
+            )
+          )[0];
+          const { data } = await axios.post("/facilities/like", {
+            facility_id: add_location.identification_number,
+          });
+        } else if (db_data.length > like_locations.length) {
+          const del_location = db_data.results.filter((loc_in_db) =>
+            like_locations.some(
+              (location) =>
+                loc_in_db.identification_number !==
+                location.identification_number
+            )
+          )[0];
+          console.log("db_data", db_data);
+          console.log("like_locations", like_locations);
 
+          const { data } = await axios.delete("/facilities/like", {
+            facility_id: del_location.identification_number,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    set_like_locations();
+  }, [like_locations]);
+
+  const handle_like_btn_state_change = async (state, id) => {
+    if (state === 0) {
+      try {
+        console.log(state, id);
+        // const { data } = await axios.get("/facilities/like");
+      } catch (error) {
+        console.log(error);
+        console.log(state, id);
+      }
+    } else {
+      console.log(state, id);
+    }
+  };
   const handle_search = async (filter) => {
     Object.keys(filter).forEach((key) => {
       if (filter[key] === "") delete filter[key];
@@ -72,7 +124,7 @@ export default function Home() {
     try {
       const { data } = await axios.get("/facilities/filter", { params });
       setLocations(data.results);
-      console.log(data);
+      setStartPosition(data.results[0].geocode);
     } catch (error) {
       console.log(error);
     }
@@ -80,8 +132,30 @@ export default function Home() {
 
   const handle_logout = (e) => {
     localStorage.clear();
-    console.log("dsds");
     window.location.href = window.location.href + "/../Signin";
+  };
+  const handle_click = async (e) => {
+    e.preventDefault();
+    const clickedRow = e.target.closest("tr");
+    const firstCell = clickedRow.querySelector("td:first-child");
+    const content = firstCell.textContent;
+    const filterByID = { "מספר זיהוי": content };
+
+    const params = {
+      filters: JSON.stringify(filterByID),
+      offset: 0,
+      limit: 1,
+    };
+
+    try {
+      const { data } = await axios.get("/facilities/filter", { params });
+      setLocations(data.results);
+      const geocode = data.results[0].geocode;
+      setStartPosition(geocode);
+      console.log(geocode);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -121,13 +195,17 @@ export default function Home() {
                     like_locations.map((location, key) => {
                       console.log(location);
                       return (
-                        <tr key={key}>
+                        <tr onClick={handle_click} key={key}>
                           <td>{location.identification_number}</td>
                           <td>{location.facility_type}</td>
                           <td>{location.facility_name}</td>
                           <td>{location.local_authority}</td>
-                          <td>{location.contact_person_phone}</td>
-                          <td>{location.contact_person_email}</td>
+                          <td className="eng">
+                            {location.contact_person_phone}
+                          </td>
+                          <td className="eng">
+                            {location.contact_person_email}
+                          </td>
                         </tr>
                       );
                     })}
@@ -137,7 +215,13 @@ export default function Home() {
           </div>
         </div>
         <div className="half-grid">
-          <Map markers={locations} />
+          <Map
+            markers={locations}
+            startPosition={startPosition}
+            onLikeStateChange={handle_like_btn_state_change}
+            like_locations={like_locations}
+            setLikeLocations={setLikeLocations}
+          />
         </div>
       </div>
     </div>

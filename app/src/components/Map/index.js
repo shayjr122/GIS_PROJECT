@@ -1,10 +1,10 @@
 // import "../../../node_modules/../node_modules/leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import axios from "axios";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import axios from "../../utils/api";
 import { Icon, divIcon, point } from "leaflet";
 import { useEffect, useState } from "react";
+import LikeButton from "../LikeButton";
 import "./map.css";
-const startPosition = [31.646501, 34.932652];
 
 const config = require("config.json");
 
@@ -14,7 +14,22 @@ const customIcon = new Icon({
   iconSize: [38, 38], // size of the icon
 });
 
-export default function Map({ markers }) {
+function RecenterAutomatically({ lat, lng }) {
+  const map = useMap();
+  useEffect(() => {
+    map.setView([lat, lng]);
+  }, [lat, lng]);
+
+  return null;
+}
+
+export default function Map({
+  markers,
+  startPosition,
+  onLikeStateChange,
+  like_locations,
+  setLikeLocations,
+}) {
   return (
     <MapContainer
       className="leaflet-container"
@@ -66,7 +81,6 @@ export default function Map({ markers }) {
                   <div className="popuppropertiy">תקינות המתקן:</div>
                   <div className="popupvalue">{marker?.facility_status}</div>
                 </div>
-
                 {marker?.contact_person_phone &&
                 marker.contact_person_phone !== "null" &&
                 marker?.contact_person_email &&
@@ -86,10 +100,23 @@ export default function Map({ markers }) {
                 ) : (
                   <></>
                 )}
+                <LikeButton
+                  initialState={
+                    like_locations.filter(
+                      (location) =>
+                        location.identification_number ===
+                        marker.identification_number
+                    ).length
+                  }
+                  setLikeLocations={setLikeLocations}
+                  like_locations={like_locations}
+                  location={marker}
+                ></LikeButton>
               </div>
             </Popup>
           </Marker>
         ))}
+      <RecenterAutomatically lat={startPosition[0]} lng={startPosition[1]} />
     </MapContainer>
   );
 }

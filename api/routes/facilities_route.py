@@ -17,8 +17,6 @@ def filters_search_facilities(filters: str = Query(...), limit: str = Query(...)
 async def get_like(token: str = Depends(verify_access_token_user)):
     user=await get_user_by_token(token)
     results = await get_facility_liked(user_id=user.id)
-    print("######################")
-    print(results)
     return {"length": len(results), "results": results}
 
 @router.post("/facilities/like",tags=["Facilities"])

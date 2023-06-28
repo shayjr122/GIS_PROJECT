@@ -39,3 +39,7 @@ div:has(> .leaflet-container) {
   text-align: right;
   margin-bottom: 30px;
 }
+
+.css-1c4gzzx-Base {
+  display: none;
+}

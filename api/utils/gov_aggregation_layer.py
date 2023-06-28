@@ -149,7 +149,7 @@ async def get_facility_liked(user_id):
     facilities_id = await get_user_facility(user_id=user_id)
     facilities = []
     for id in facilities_id:
-        facility=get_facility_by_filter(filters='{"מספר זיהוי":"'+id+'"}')
+        facility=get_facility_by_filter(filters='{"מספר זיהוי":"'+id+'"}')[0]
         facilities.append(facility)
 
     return facilities

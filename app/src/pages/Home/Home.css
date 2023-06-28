@@ -51,7 +51,7 @@ div:has(> .home-main-grid) {
   font-size: 15px;
 }
 .half-grid {
-  width: 47.5%;
+  width: 48.7%;
   height: 100%;
 }
 .quart-grid-top {
@@ -61,13 +61,13 @@ div:has(> .home-main-grid) {
   padding: 2.5%;
 }
 .quart-grid-bottom {
-  height: 25%;
+  height: 26.5%;
   border-radius: 20px;
   border: solid black 1px;
   padding: 2.5%;
 }
 .cheat {
-  height: 2.5%;
+  height: 1%;
 }
 .center {
   margin-top: 2%;
@@ -87,7 +87,7 @@ table {
 }
 th,
 td {
-  padding: 8px 16px;
+  padding: 4px 13px;
   border: none;
 }
 
@@ -118,9 +118,12 @@ table,
 tr,
 td {
   border: none;
-
+  font-size: 14px;
   /* background-color: white; */
 }
 tr:hover {
   background-color: gray;
+}
+.eng {
+  direction: ltr !important;
 }
