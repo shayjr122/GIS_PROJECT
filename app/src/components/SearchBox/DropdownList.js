@@ -10,10 +10,7 @@ const DropdownList = ({ items, filter, setfilter, field, setSpinnerState }) => {
     items.length && (
       <ul className="spinner-list">
         {items
-          .filter(
-            (item) =>
-              new RegExp(`^${filter[field]}`).test(item) && filter[field] !== ""
-          )
+          .filter((item) => new RegExp(`^${filter[field]}`).test(item))
           .map((item, key) => (
             <li
               key={key}

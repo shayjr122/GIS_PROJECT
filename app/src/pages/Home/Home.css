@@ -45,9 +45,10 @@ div:has(> .home-main-grid) {
   height: 30px;
   margin: 5px;
   border-radius: 2em;
+  border: solid white 1px;
   background-color: #00b9e8;
   color: white;
-  border: none;
+
   font-size: 15px;
 }
 .half-grid {
@@ -121,8 +122,9 @@ td {
   font-size: 14px;
   /* background-color: white; */
 }
-tr:hover {
+.tr-hover:hover {
   background-color: gray;
+  cursor: pointer;
 }
 .eng {
   direction: ltr !important;

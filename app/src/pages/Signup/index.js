@@ -48,36 +48,45 @@ function SignUp() {
     src_image,
     user: [userCred, setUserCred],
   };
-
+  const handle_signin = (e) => {
+    window.location.href = window.location.href + "/../Signin";
+  };
   return (
-    <Sign
-      {...form}
-      onSubmit={async (user) => {
-        // user = {
-        //   token: localStorage.getItem("token"),
-        //   ...user,
-        //   ...user.selects.reduce((acc, obj) => {
-        //     return { ...acc, ...obj };
-        //   }, {}),
-        // };
-        // delete user.selects;
-        // console.log(user);
-        const { data } = await axios.post(
-          `${config.api_host}/user/signup`,
-          {
+    <div>
+      <div>
+        <input
+          className="logout-btn"
+          type="submit"
+          value={"התחבר"}
+          onClick={handle_signin}
+        />
+      </div>
+      <Sign
+        {...form}
+        onSubmit={async (user) => {
+          // user = {
+          //   token: localStorage.getItem("token"),
+          //   ...user,
+          //   ...user.selects.reduce((acc, obj) => {
+          //     return { ...acc, ...obj };
+          //   }, {}),
+          // };
+          // delete user.selects;
+          // console.log(user);
+          const { data } = await axios.post(`${config.api_host}/user/signup`, {
             email: userCred.email,
             password: userCred.password,
             fullName: userCred.fullName,
+          });
+          if (data.message == "User created successfully") {
+            alert("user has been registered successfully");
+            navigate("/signin");
+          } else {
+            alert("username already exists, try something else");
           }
-        );
-        if (data.message == "User created successfully") {
-          alert("user has been registered successfully");
-          navigate("/signin");
-        } else {
-          alert("username already exists, try something else");
-        }
-      }}
-    />
+        }}
+      />
+    </div>
   );
 }
 export default SignUp;

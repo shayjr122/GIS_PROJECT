@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from utils.database import database,create_user_table_if_not_exist,create_default_admin_user,create_liked_table_if_not_exist
+
 app = FastAPI()
 
 
@@ -12,7 +13,6 @@ from routes.facilities_route import router as facilities_route
 # Include the user router
 app.include_router(user_router, tags=["User"])
 app.include_router(facilities_route, tags=["Facilities"])
-
 origins = [
     "*"
     # "http://localhost",

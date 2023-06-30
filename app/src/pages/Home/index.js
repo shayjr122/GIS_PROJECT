@@ -65,17 +65,38 @@ export default function Home() {
       try {
         const { data: db_data } = await axios.get("/facilities/like");
         if (db_data.length < like_locations.length) {
-          const add_location = like_locations.filter((location) =>
+          console.log(
+            "db_data.length < like_locations.length",
+            db_data.length < like_locations.length
+          );
+
+          let add_location = like_locations.filter((location) =>
             db_data.results.some(
               (loc_in_db) =>
                 loc_in_db.identification_number !==
                 location.identification_number
             )
           )[0];
-          const { data } = await axios.post("/facilities/like", {
-            facility_id: add_location.identification_number,
+          if (db_data.length == 0 && like_locations.length == 1) {
+            add_location = like_locations[0];
+          }
+          console.log("db", db_data);
+          console.log("UI", like_locations);
+          console.log("add_location", add_location);
+          console.log(
+            "add_location.identification_number",
+            add_location.identification_number
+          );
+          const { data } = await axios.post("/facilities/like", null, {
+            params: {
+              facility_id: add_location.identification_number,
+            },
           });
         } else if (db_data.length > like_locations.length) {
+          console.log(
+            "db_data.length > like_locations.length",
+            db_data.length > like_locations.length
+          );
           const del_location = db_data.results.filter((loc_in_db) =>
             like_locations.some(
               (location) =>
@@ -83,12 +104,19 @@ export default function Home() {
                 location.identification_number
             )
           )[0];
-          console.log("db_data", db_data);
-          console.log("like_locations", like_locations);
+          console.log("del_location", del_location);
+          // console.log("db_data", db_data);
+          // console.log("like_locations", like_locations);
 
-          const { data } = await axios.delete("/facilities/like", {
-            facility_id: del_location.identification_number,
-          });
+          const { data } = await axios.delete(
+            "/facilities/unlike",
+
+            {
+              params: {
+                facility_id: del_location.identification_number,
+              },
+            }
+          );
         }
       } catch (error) {
         console.log(error);
@@ -134,6 +162,15 @@ export default function Home() {
     localStorage.clear();
     window.location.href = window.location.href + "/../Signin";
   };
+
+  const handle_admin = (e) => {
+    if (
+      localStorage.getItem("role") === "admin" ||
+      localStorage.getItem("role") === "ADMIN"
+    ) {
+      window.location.href = window.location.href + "/../adminPanel";
+    }
+  };
   const handle_click = async (e) => {
     e.preventDefault();
     const clickedRow = e.target.closest("tr");
@@ -167,6 +204,17 @@ export default function Home() {
           value={"התנתק"}
           onClick={handle_logout}
         />
+        {localStorage.getItem("role") === "admin" ||
+        localStorage.getItem("role") === "ADMIN" ? (
+          <input
+            className="logout-btn"
+            type="submit"
+            value={"ניהול"}
+            onClick={handle_admin}
+          />
+        ) : (
+          <></>
+        )}
       </div>
       <div className="home-main-grid">
         <div className="half-grid">
@@ -195,7 +243,11 @@ export default function Home() {
                     like_locations.map((location, key) => {
                       console.log(location);
                       return (
-                        <tr onClick={handle_click} key={key}>
+                        <tr
+                          className="tr-hover"
+                          onClick={handle_click}
+                          key={key}
+                        >
                           <td>{location.identification_number}</td>
                           <td>{location.facility_type}</td>
                           <td>{location.facility_name}</td>

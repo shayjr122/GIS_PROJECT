@@ -1,7 +1,7 @@
 from databases import Database
 from pydantic import BaseModel
 from passlib.context import CryptContext
-
+from typing import List
 # Database Settings
 DATABASE_URL = "sqlite:///./users.db"
 
@@ -12,6 +12,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # Database Connection
 database = Database(DATABASE_URL)
 
+class User4update(BaseModel):
+    email: str
+    fullName:str
+    role:str
 
 class User(BaseModel):
     email: str
@@ -88,9 +92,30 @@ async def get_user_facility(user_id: int):
 
 async def create_default_admin_user():
     user = UserCred(email="admin@admin.com",fullName='Admin',password="Aa123456")
-    await register_user(user=user,role="ADMIN")
+    await register_user(user=user,role="admin")
+
+async def update_user_roles(users:List[User4update]):
+    for user in users:
+        query = "UPDATE users SET role = :role WHERE email = :email"
+        values = {"role": user.role, "email": user.email}
+        await database.execute(query=query, values=values)
 
 
+async def delete_users(users:List[User4update]):
+    for user in users:
+        query = "DELETE FROM users WHERE email = :email" 
+        values = {"email": user.email}   
+        await database.execute(query=query, values=values)
+
+async def get_users_in_db():
+    users=[]
+    query = "SELECT * FROM users"
+    results = await database.fetch_all(query=query)
+    if results:
+        for result in results:
+            users.append({"email":result["email"],"fullName":result["fullName"],"role":result["role"]})
+        return users
+    
 # Get user from the database
 async def get_user_in_db(email: str)->UserInDB:
     query = "SELECT * FROM users WHERE email = :email"

@@ -10,7 +10,6 @@ export default function LikeButton({
   location,
 }) {
   const [likeState, setLikeState] = useState(false);
-
   useEffect(() => {
     console.log("initialState", initialState);
     setLikeState(initialState);

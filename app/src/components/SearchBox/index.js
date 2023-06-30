@@ -15,6 +15,7 @@ const SearchBox = ({ searchBox, spinners, onSubmitCallback }) => {
   };
   const handle_change = (e, key) => {
     e.preventDefault();
+
     setfilter({ ...filter, [e.target.name]: e.target.value });
     setSpinnerState(key);
     console.log(filter);
@@ -27,10 +28,17 @@ const SearchBox = ({ searchBox, spinners, onSubmitCallback }) => {
 
   return (
     <Form style={{ width: "100%" }} onSubmit={handle_submit}>
-      <div className="my-input" onChange={(e) => handle_change_q(e)}>
-        <input {...searchBox} />
-        <img src={search} />
-      </div>
+      {searchBox ? (
+        <>
+          <div className="my-input" onChange={(e) => handle_change_q(e)}>
+            <input {...searchBox} />
+            <img src={search} />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+
       {spinners.map((spinner, key) => (
         <div key={key} className="my-input drop-down">
           <div onChange={(e) => handle_change(e, key)}>

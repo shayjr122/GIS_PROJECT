@@ -11,13 +11,7 @@ export default function Signin() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("token") && localStorage.getItem("role")) {
-      if (localStorage.getItem("role") === "ADMIN") {
-        navigate("/adminPanel");
-      } else {
-        navigate("/home");
-      }
-    }
+    navigate("/home");
   }, []);
   const [userCred, setUserCred] = useState({ username: "", password: "" });
   const form = {
@@ -45,32 +39,45 @@ export default function Signin() {
     src_image,
     user: [userCred, setUserCred],
   };
+  const handle_signup = (e) => {
+    window.location.href = window.location.href + "/../Signup";
+  };
 
   return (
-    <Sign
-      {...form}
-      onSubmit={async (user) => {
-        try {
-          const response = await axios.post(
-            `${config.api_host}/user/login`,
-            { email: user.email, password: user.password }
-          );
+    <div>
+      <div>
+        <input
+          className="logout-btn"
+          type="submit"
+          value={"הרשם"}
+          onClick={handle_signup}
+        />
+      </div>
+      <Sign
+        {...form}
+        onSubmit={async (user) => {
+          try {
+            const response = await axios.post(`${config.api_host}/user/login`, {
+              email: user.email,
+              password: user.password,
+            });
 
-          if (response.status === 200) {
-            console.log(response);
-            localStorage.setItem("token", response.data.access_token);
-            localStorage.setItem("retoken", response.data.refresh_token);
-            localStorage.setItem("role", response.data.userData.role);
-            localStorage.setItem("name", response.data.userData.fullName);
-            localStorage.setItem("loginTime", new Date());
-            navigate(0);
-          } else {
+            if (response.status === 200) {
+              console.log(response);
+              localStorage.setItem("token", response.data.access_token);
+              localStorage.setItem("retoken", response.data.refresh_token);
+              localStorage.setItem("role", response.data.userData.role);
+              localStorage.setItem("name", response.data.userData.fullName);
+              localStorage.setItem("loginTime", new Date());
+              navigate(0);
+            } else {
+              alert("שם משתמש או סיסמה אינם נכונים");
+            }
+          } catch (error) {
             alert("שם משתמש או סיסמה אינם נכונים");
           }
-        } catch (error) {
-          alert("שם משתמש או סיסמה אינם נכונים");
-        }
-      }}
-    />
+        }}
+      />
+    </div>
   );
 }

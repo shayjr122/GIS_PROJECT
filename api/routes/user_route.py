@@ -1,7 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Header
-from utils.database import UserCred
+from utils.database import update_user_roles
+from utils.user_managment import get_users
+from utils.database import UserCred,delete_users
 from utils.user_managment import login,User,refresh_access_token,verify_access_token_user,verify_access_token_admin,signup
-from utils.database import User
+from utils.database import User,User4update
+from typing import List
 
 router = APIRouter()
 
@@ -20,13 +23,22 @@ async def signup_user(user: UserCred):
 
 
 
-@router.get("/user/restricted")
-async def restricted_route(token: str = Depends(verify_access_token_user)):
-    # API logic goes here
-    return {"message": "Access granted","token":token}
 
 
-@router.get("/admin/restricted")
-async def restricted_route(token: str = Depends(verify_access_token_admin)):
-    # API logic goes here
-    return {"message": "Access granted","token":token}
+@router.get("/admin/users")
+async def get_users_list(token: str = Depends(verify_access_token_admin)):
+    return await get_users()
+
+
+@router.post("/admin/users")
+async def post_users_list(users:List[User4update],token: str = Depends(verify_access_token_admin)):
+    await update_user_roles(users)
+    return "users updated successfully"
+
+@router.delete("/admin/users")
+async def delete_users_list(users:List[User4update],token: str = Depends(verify_access_token_admin)):
+    await delete_users(users)
+    return "users deleted successfully"
+
+
+

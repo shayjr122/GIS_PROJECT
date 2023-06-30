@@ -3,8 +3,8 @@ import Signin from "pages/Signin";
 
 const tokenExpireInHour = 8;
 const ROLES = {
-  user: "USER",
-  admin: "ADMIN",
+  user: "user",
+  admin: "admin",
 };
 
 const validateToken = () => {
@@ -21,7 +21,7 @@ const validTime = () => {
 
 const validateAdmin = () => {
   const roles = localStorage.getItem("role");
-  return roles && roles == ROLES.admin;
+  return (roles && roles == ROLES.admin) || "ADMIN";
 };
 
 function ProtectedRoutes() {

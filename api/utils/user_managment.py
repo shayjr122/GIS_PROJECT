@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from utils.database import UserCred
 from utils.database import get_user_in_db,UserInDB
 from passlib.context import CryptContext
-from utils.database import User,register_user
+from utils.database import User,register_user,get_users_in_db
 router = APIRouter()
 
 # JWT Settings
@@ -31,7 +31,7 @@ class Token(BaseModel):
 
 # Signup
 async def signup(user:UserCred):
-    return await register_user(user,"USER")
+    return await register_user(user,"user")
 
 # Login
 async def login(user: User):
@@ -121,8 +121,12 @@ def verify_access_token_admin(authorization: Optional[str] = Header(...)):
     
     token = authorization.replace("Bearer ", "")
     payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    if payload["role"] != "ADMIN":
+    if payload["role"] != "admin" and payload["role"]  != "ADMIN":
         raise HTTPException(status_code=401, detail="Invalid authorization header")
     
     return token
 
+
+async def get_users():
+    users = await get_users_in_db()
+    return {"length":len(users),"results":users}
