@@ -81,6 +81,10 @@ export default function Map({
                   <div className="popuppropertiy">תקינות המתקן:</div>
                   <div className="popupvalue">{marker?.facility_status}</div>
                 </div>
+                <div className="poupline">
+                  <div className="popuppropertiy">סוג המתקן:</div>
+                  <div className="popupvalue">{marker?.facility_type}</div>
+                </div>
                 {marker?.contact_person_phone &&
                 marker.contact_person_phone !== "null" &&
                 marker?.contact_person_email &&
@@ -98,7 +102,12 @@ export default function Map({
                     </div>
                   </div>
                 ) : (
-                  <></>
+                  <div className="poupline">
+                    <div className="popuppropertiy">פרטי איש קשר:</div>
+                    <div className="popupvalue">
+                      יש ליצור קשר עם עיריית {marker.facility_owners}
+                    </div>
+                  </div>
                 )}
                 <LikeButton
                   initialState={

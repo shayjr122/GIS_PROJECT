@@ -9,7 +9,7 @@ import Home from "pages/Home";
 import Signin from "pages/Signin";
 import SignUp from "pages/Signup";
 import AdminPanel from "pages/AdminPanel";
-
+import User from "pages/User";
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
@@ -19,10 +19,11 @@ root.render(
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="/signin" element={<Signin />}></Route>
       <Route path="/signUp" element={<SignUp />}></Route>
+
       <Route element={<ProtectedRoutes />}>
         {/* user routes */}
         <Route path="/home" element={<Home />}></Route>
-
+        <Route path="/user" element={<User />}></Route>
         <Route element={<AdminRoutes />}>
           {/* admin routes */}
           <Route path="/adminPanel" element={<AdminPanel />}></Route>

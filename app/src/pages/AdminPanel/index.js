@@ -24,7 +24,9 @@ export default function AdminPanel() {
 
     set_users();
   }, []);
-
+  const handle_user = (e) => {
+    window.location.href = window.location.href + "/../user";
+  };
   const handle_update_click = async (e) => {
     var update_users = [];
     for (let i = 0; i < users.length; i++) {
@@ -72,6 +74,12 @@ export default function AdminPanel() {
   return (
     <div className="all">
       <div>
+        <input
+          className="logout-btn"
+          type="submit"
+          value={"פרטי משתמש"}
+          onClick={handle_user}
+        />
         <input
           className="logout-btn"
           type="submit"

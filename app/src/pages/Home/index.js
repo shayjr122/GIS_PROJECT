@@ -171,6 +171,9 @@ export default function Home() {
       window.location.href = window.location.href + "/../adminPanel";
     }
   };
+  const handle_user = (e) => {
+    window.location.href = window.location.href + "/../user";
+  };
   const handle_click = async (e) => {
     e.preventDefault();
     const clickedRow = e.target.closest("tr");
@@ -198,6 +201,12 @@ export default function Home() {
   return (
     <div className="all">
       <div>
+        <input
+          className="logout-btn"
+          type="submit"
+          value={"פרטי משתמש"}
+          onClick={handle_user}
+        />
         <input
           className="logout-btn"
           type="submit"
@@ -252,12 +261,31 @@ export default function Home() {
                           <td>{location.facility_type}</td>
                           <td>{location.facility_name}</td>
                           <td>{location.local_authority}</td>
-                          <td className="eng">
-                            {location.contact_person_phone}
-                          </td>
-                          <td className="eng">
-                            {location.contact_person_email}
-                          </td>
+
+                          {!location.contact_person_phone ||
+                          !location.contact_person_email ||
+                          location.contact_person_phone === "" ||
+                          location.contact_person_email === "" ? (
+                            <>
+                              <td>
+                                יש ליצור קשר עם עיריית{" "}
+                                {location.facility_owners}
+                              </td>
+                              <td>
+                                יש ליצור קשר עם עיריית{" "}
+                                {location.facility_owners}
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              <td className="eng">
+                                {location.contact_person_phone}
+                              </td>
+                              <td className="eng">
+                                {location.contact_person_email}
+                              </td>
+                            </>
+                          )}
                         </tr>
                       );
                     })}

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Header
 from utils.database import update_user_roles
-from utils.user_managment import get_users
+from utils.user_managment import get_users,get_user_by_token
 from utils.database import UserCred,delete_users
 from utils.user_managment import login,User,refresh_access_token,verify_access_token_user,verify_access_token_admin,signup
 from utils.database import User,User4update
@@ -22,6 +22,11 @@ async def signup_user(user: UserCred):
     return await signup(user=user)
 
 
+@router.get("/user")
+async def refresh(token: str = Depends(verify_access_token_user)):
+    user=await get_user_by_token(token)
+    print("user",user)
+    return {"length":1,"results":[user]}
 
 
 
