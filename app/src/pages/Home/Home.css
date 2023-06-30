@@ -129,3 +129,12 @@ td {
 .eng {
   direction: ltr !important;
 }
+@media (max-width: 1020px) {
+  .home-main-grid {
+    display: list-item;
+  }
+  .half-grid {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
