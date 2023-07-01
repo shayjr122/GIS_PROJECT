@@ -85,6 +85,19 @@ export default function Map({
                   <div className="popuppropertiy">סוג המתקן:</div>
                   <div className="popupvalue">{marker?.facility_type}</div>
                 </div>
+                <div className="poupline">
+                  <div className="popuppropertiy">מתקן תקני לתחרויות:</div>
+                  <div className="popupvalue">
+                    {marker?.regulation_compliant_facility}
+                  </div>
+                </div>
+                <div className="poupline">
+                  <div className="popuppropertiy">שימוש לתחרויות רשמיות:</div>
+                  <div className="popupvalue">
+                    {marker?.official_competition_use}
+                  </div>
+                </div>
+
                 {marker?.contact_person_phone &&
                 marker.contact_person_phone !== "null" &&
                 marker?.contact_person_email &&
